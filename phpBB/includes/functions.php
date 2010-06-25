@@ -4411,4 +4411,18 @@ function phpbb_user_session_handler()
 	return;
 }
 
+/**
+* Check if PCRE has UTF-8 support
+* PHP may not be linked with the bundled PCRE lib and instead with an older version
+*/
+function pcre_utf8_support()
+{
+	static $utf8_pcre_properties = null;
+	if (is_null($utf8_pcre_properties))
+	{
+		$utf8_pcre_properties = (@preg_match('/\p{L}/u', 'a') !== false);
+	}
+	return $utf8_pcre_properties;
+}
+
 ?>
