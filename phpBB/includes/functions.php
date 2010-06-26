@@ -4414,6 +4414,8 @@ function phpbb_user_session_handler()
 /**
 * Check if PCRE has UTF-8 support
 * PHP may not be linked with the bundled PCRE lib and instead with an older version
+*
+* @return bool	Returns true if PCRE (the regular expressions library) supports UTF-8 encoding
 */
 function pcre_utf8_support()
 {
