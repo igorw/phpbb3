@@ -29,6 +29,7 @@ class phpbb_text_processing_all_tests
 		$suite = new PHPUnit_Framework_TestSuite('phpBB Text Processing Tools');
 
 		$suite->addTestSuite('phpbb_text_processing_make_clickable_test');
+		$suite->addTestSuite('phpbb_text_processing_message_test');
 
 		return $suite;
 	}
