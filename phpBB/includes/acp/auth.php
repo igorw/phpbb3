@@ -182,7 +182,7 @@ class auth_admin extends auth
 		}
 
 		// Defining the user-function here to save some memory
-		$return_acl_fill = create_function('$value', 'return ' . $acl_fill . ';');
+		$return_acl_fill = array(new phpbb_auth_admin_acl_fill_helper($acl_fill), 'handle');
 
 		// Actually fill the gaps
 		if (sizeof($hold_ary))
@@ -1280,4 +1280,23 @@ class auth_admin extends auth
 
 		return true;
 	}
+}
+
+/**
+* Return a constant value
+* used for filling the acl array
+*/
+class phpbb_auth_admin_acl_fill_helper
+{
+    private $fill_value;
+
+    public function __construct($fill_value)
+    {
+        $this->fill_value = $fill_value;
+    }
+
+    public function handle($input)
+    {
+        return $this->fill_value;
+    }
 }
