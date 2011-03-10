@@ -2,8 +2,7 @@
 /**
 *
 * @package dbal
-* @version $Id$
-* @copyright (c) 2005 phpBB Group
+* @copyright (c) 2005, 2011 phpBB Group
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -20,35 +19,49 @@ include_once($phpbb_root_path . 'includes/db/dbal.' . $phpEx);
 
 /**
 * Sqlite Database Abstraction Layer
-* Minimum Requirement: 2.8.2+
+*
+* This file is largely based upon
+* <http://www.phpbb.com/community/viewtopic.php?f=70&t=1059695>
+*
 * @package dbal
+* @author Boris Berdichevski <borisba@borisba.com>
 */
 class dbal_sqlite extends dbal
 {
+	private $conn;
+
 	/**
 	* Connect to server
 	*/
 	function sql_connect($sqlserver, $sqluser, $sqlpassword, $database, $port = false, $persistency = false, $new_link = false)
 	{
-		$this->persistency = $persistency;
-		$this->user = $sqluser;
-		$this->server = $sqlserver . (($port) ? ':' . $port : '');
-		$this->dbname = $database;
+		$this->server		= $sqlserver;
+		$this->persistency	= $persistency;
 
-		$error = '';
-		$this->db_connect_id = ($this->persistency) ? @sqlite_popen($this->server, 0666, $error) : @sqlite_open($this->server, 0666, $error);
+		$this->sql_layer = 'sqlite';
 
-		if ($this->db_connect_id)
+		$this->open_queries = new SplObjectStorage();
+
+		try
 		{
-			@sqlite_query('PRAGMA short_column_names = 1', $this->db_connect_id);
-//			@sqlite_query('PRAGMA encoding = "UTF-8"', $this->db_connect_id);
+			$this->conn = new SQLite3($this->server);
+			$this->conn->exec('PRAGMA short_column_names = 1');
+			$this->conn->exec('PRAGMA encoding = "UTF-8"');
+		}
+		catch (Exception $error)
+		{
+			return array(
+				'code'		=> $error->getCode(),
+				'message' 	=> $error->getMessage(),
+			);
 		}
 
-		return ($this->db_connect_id) ? true : array('message' => $error);
+		return true;
 	}
 
 	/**
 	* Version information about used database
+	*
 	* @param bool $raw if true, only return the fetched sql_server_version
 	* @param bool $use_cache if true, it is safe to retrieve the stored value from the cache
 	* @return string sql server version
@@ -59,10 +72,9 @@ class dbal_sqlite extends dbal
 
 		if (!$use_cache || empty($cache) || ($this->sql_server_version = $cache->get('sqlite_version')) === false)
 		{
-			$result = @sqlite_query('SELECT sqlite_version() AS version', $this->db_connect_id);
-			$row = @sqlite_fetch_array($result, SQLITE_ASSOC);
+			$vers = SQLite3::version();
 
-			$this->sql_server_version = (!empty($row['version'])) ? $row['version'] : 0;
+			$this->sql_server_version = $vers['versionString'];
 
 			if (!empty($cache) && $use_cache)
 			{
@@ -75,22 +87,21 @@ class dbal_sqlite extends dbal
 
 	/**
 	* SQL Transaction
-	* @access private
 	*/
 	function _sql_transaction($status = 'begin')
 	{
 		switch ($status)
 		{
 			case 'begin':
-				return @sqlite_query('BEGIN', $this->db_connect_id);
+				return $this->conn->query('BEGIN');
 			break;
 
 			case 'commit':
-				return @sqlite_query('COMMIT', $this->db_connect_id);
+				return $this->conn->query('COMMIT');
 			break;
 
 			case 'rollback':
-				return @sqlite_query('ROLLBACK', $this->db_connect_id);
+				return $this->conn->query('ROLLBACK');
 			break;
 		}
 
@@ -104,14 +115,13 @@ class dbal_sqlite extends dbal
 	* @param	int		$cache_ttl	Either 0 to avoid caching or the time in seconds which the result shall be kept in cache
 	* @return	mixed				When casted to bool the returned value returns true on success and false on failure
 	*
-	* @access	public
 	*/
 	function sql_query($query = '', $cache_ttl = 0)
 	{
+		global $cache;
+
 		if ($query != '')
 		{
-			global $cache;
-
 			// EXPLAIN only in extra debug mode
 			if (defined('DEBUG_EXTRA'))
 			{
@@ -123,9 +133,39 @@ class dbal_sqlite extends dbal
 
 			if ($this->query_result === false)
 			{
-				if (($this->query_result = @sqlite_query($query, $this->db_connect_id)) === false)
+				if (strpos($query, 'SELECT') !== 0 && strpos($query, 'PRAGMA') !== 0)
 				{
-					$this->sql_error($query);
+					if ($this->return_on_error)
+					{
+						$error_reporting = error_reporting(0);
+					}
+
+					try
+					{
+						$this->query_result = $this->conn->exec($query);
+					}
+					catch (Exception $error)
+					{
+						$this->sql_error($query);
+						$this->query_result = false;
+					}
+
+					if ($this->return_on_error)
+					{
+						error_reporting($error_reporting);
+					}
+				}
+				else
+				{
+					try
+					{
+						$this->query_result = $this->conn->query($query);
+					}
+					catch (Exception $error)
+					{
+						$this->sql_error($query);
+						$this->query_result = false;
+					}
 				}
 
 				if (defined('DEBUG_EXTRA'))
@@ -135,12 +175,12 @@ class dbal_sqlite extends dbal
 
 				if ($cache_ttl && method_exists($cache, 'sql_save'))
 				{
-					$this->open_queries[(int) $this->query_result] = $this->query_result;
+					$this->open_queries->attach($this->query_result);
 					$cache->sql_save($query, $this->query_result, $cache_ttl);
 				}
 				else if (strpos($query, 'SELECT') === 0 && $this->query_result)
 				{
-					$this->open_queries[(int) $this->query_result] = $this->query_result;
+					$this->open_queries->attach($this->query_result);
 				}
 			}
 			else if (defined('DEBUG_EXTRA'))
@@ -179,7 +219,7 @@ class dbal_sqlite extends dbal
 	*/
 	function sql_affectedrows()
 	{
-		return ($this->db_connect_id) ? @sqlite_changes($this->db_connect_id) : false;
+		return ($this->conn) ? $this->conn->changes() : false;
 	}
 
 	/**
@@ -199,7 +239,12 @@ class dbal_sqlite extends dbal
 			return $cache->sql_fetchrow($query_id);
 		}
 
-		return ($query_id !== false) ? @sqlite_fetch_array($query_id, SQLITE_ASSOC) : false;
+		if ($query_id === false || !isset($query_id) || !is_object($query_id))
+		{
+			return false;
+		}
+
+		return $query_id->fetchArray(SQLITE3_ASSOC);
 	}
 
 	/**
@@ -215,12 +260,13 @@ class dbal_sqlite extends dbal
 			$query_id = $this->query_result;
 		}
 
-		if (isset($cache->sql_rowset[$query_id]))
+		if (isset($cashe) && isset($cache->sql_rowset[$query_id]))
 		{
 			return $cache->sql_rowseek($rownum, $query_id);
 		}
 
-		return ($query_id !== false) ? @sqlite_seek($query_id, $rownum) : false;
+		// @todo This seems largely useless currently :-/
+		return true; //($query_id !== false) ? @sqlite_seek($query_id, $rownum) : false;
 	}
 
 	/**
@@ -228,7 +274,7 @@ class dbal_sqlite extends dbal
 	*/
 	function sql_nextid()
 	{
-		return ($this->db_connect_id) ? @sqlite_last_insert_rowid($this->db_connect_id) : false;
+		return $this->conn->lastInsertRowID();
 	}
 
 	/**
@@ -248,7 +294,13 @@ class dbal_sqlite extends dbal
 			return $cache->sql_freeresult($query_id);
 		}
 
-		return true;
+		if ($query_id && $this->open_queries->contains($query_id))
+		{
+			$this->open_queries->detach($query_id);
+			return $query_id->finalize();
+		}
+
+		return false;
 	}
 
 	/**
@@ -256,12 +308,14 @@ class dbal_sqlite extends dbal
 	*/
 	function sql_escape($msg)
 	{
-		return @sqlite_escape_string($msg);
+		return SQLite3::escapeString($msg);
 	}
 
 	/**
 	* Correctly adjust LIKE expression for special characters
 	* For SQLite an underscore is a not-known character... this may change with SQLite3
+	*
+	* @todo Does this still stand for SQLite3?
 	*/
 	function sql_like_expression($expression)
 	{
@@ -277,19 +331,17 @@ class dbal_sqlite extends dbal
 
 	/**
 	* return sql error array
-	* @access private
 	*/
 	function _sql_error()
 	{
 		return array(
-			'message'	=> @sqlite_error_string(@sqlite_last_error($this->db_connect_id)),
-			'code'		=> @sqlite_last_error($this->db_connect_id)
+			'message'	=> $this->conn->lastErrorMsg(),
+			'code'		=> $this->conn->lastErrorCode()
 		);
 	}
 
 	/**
 	* Build db-specific query data
-	* @access private
 	*/
 	function _sql_custom_build($stage, $data)
 	{
@@ -298,16 +350,14 @@ class dbal_sqlite extends dbal
 
 	/**
 	* Close sql connection
-	* @access private
 	*/
 	function _sql_close()
 	{
-		return @sqlite_close($this->db_connect_id);
+		return $this->conn->close();
 	}
 
 	/**
 	* Build db-specific report
-	* @access private
 	*/
 	function _sql_report($mode, $query = '')
 	{
@@ -317,11 +367,10 @@ class dbal_sqlite extends dbal
 			break;
 
 			case 'fromcache':
-				$endtime = explode(' ', microtime());
-				$endtime = $endtime[0] + $endtime[1];
+				$endtime = microtime(true);
 
-				$result = @sqlite_query($query, $this->db_connect_id);
-				while ($void = @sqlite_fetch_array($result, SQLITE_ASSOC))
+				$result = $this->conn->query($query);
+				while ($void = $result->fetchArray(SQLITE3_ASSOC))
 				{
 					// Take the time spent on parsing rows into account
 				}
@@ -331,7 +380,29 @@ class dbal_sqlite extends dbal
 
 				$this->sql_report('record_fromcache', $query, $endtime, $splittime);
 
+				$results->finalize();
 			break;
 		}
+	}
+
+	/**
+	* Return column types
+	* @todo Where has this come from?
+	*/
+	function fetch_column_types($table_name)
+	{
+		$col_types = array();
+		$col_info_res  = $this->conn->query("PRAGMA table_info('$table_name')");
+
+		while ($col_info = $col_info_res->fetchArray(SQLITE3_ASSOC))
+		{
+			$column_name = $col_info[name];
+			$column_type = $col_info[type];
+			$col_types[$column_name] = $column_type;
+		}
+
+		$col_info_res->finalize();
+
+		return $col_types;
 	}
 }

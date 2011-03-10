@@ -46,7 +46,7 @@ class phpbb_database_test_connection_manager
 
 		switch ($this->dbms['PDO'])
 		{
-			case 'sqlite2':
+			case 'sqlite':
 				$dsn .= $this->config['dbhost'];
 			break;
 
@@ -217,7 +217,7 @@ class phpbb_database_test_connection_manager
 	protected function load_schema_from_file($directory)
 	{
 		$schema = $this->dbms['SCHEMA'];
-		
+
 		if ($this->config['dbms'] == 'mysql')
 		{
 			$sth = $this->pdo->query('SELECT VERSION() AS version');
@@ -328,7 +328,7 @@ class phpbb_database_test_connection_manager
 			'sqlite'		=> array(
 				'SCHEMA'		=> 'sqlite',
 				'DELIM'			=> ';',
-				'PDO'			=> 'sqlite2',
+				'PDO'			=> 'sqlite',
 			),
 		);
 

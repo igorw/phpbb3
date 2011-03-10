@@ -69,7 +69,7 @@ abstract class phpbb_database_test_case extends PHPUnit_Extensions_Database_Test
 			// Silently use sqlite
 			return array(
 				'dbms'		=> 'sqlite',
-				'dbhost'	=> dirname(__FILE__) . '/../phpbb_unit_tests.sqlite2', // filename
+				'dbhost'	=> dirname(__FILE__) . '/../phpbb_unit_tests.sqlite3', // filename
 				'dbport'	=> '',
 				'dbname'	=> '',
 				'dbuser'	=> '',
