@@ -183,8 +183,8 @@ function unload_cookie()
 	createCookie('style_cookie', title, 365);
 }
 
-onload_functions.push('load_cookie()');
-onunload_functions.push('unload_cookie()');
+$(window).load(load_cookie);
+$(window).bind('unload', unload_cookie);
 
 /*
 var cookie = readCookie("style");

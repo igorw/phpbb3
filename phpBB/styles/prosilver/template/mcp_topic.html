@@ -4,7 +4,7 @@
 
 <script type="text/javascript">
 // <![CDATA[
-var panels = new Array('display-panel', 'split-panel', 'merge-panel');
+var panels = ['display-panel', 'split-panel', 'merge-panel'];
 
 <!-- IF S_MERGE_VIEW -->
 	var show_panel = 'merge-panel';
@@ -14,7 +14,7 @@ var panels = new Array('display-panel', 'split-panel', 'merge-panel');
 	var show_panel = 'display-panel';
 <!-- ENDIF -->
 
-onload_functions.push('subPanels()');
+$(window).load(subPanels);
 
 // ]]>
 </script>
