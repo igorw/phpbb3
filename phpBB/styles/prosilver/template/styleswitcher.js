@@ -96,34 +96,53 @@ function getKeyCode(event)
 
 function setActiveStyleSheet(title)
 {
-	var i, a, main;
-
-	for (i = 0; (a = document.getElementsByTagName('link')[i]); i++)
+	switch(title)
 	{
-		if (a.getAttribute('rel').indexOf('style') != -1 && a.getAttribute('title'))
-		{
-			a.disabled = true;
-			if (a.getAttribute('title') == title)
-			{
-				a.disabled = false;
-			}
-		}
+		case 'A--':
+			$('body').css('font-size', '8px');
+		break;
+		case 'A-':
+			$('body').css('font-size', '9px');
+		break;
+		case 'A':
+			$('body').css('font-size', '10px');
+		break;
+		case 'A+':
+			$('body').css('font-size', '11px');
+		break;
+		case 'A++':
+			$('body').css('font-size', '12px');
+		break;
+		default:
+			$('body').css('font-size', '10px');
+		break;
 	}
 }
 
 function getActiveStyleSheet()
 {
-	var i, a;
+	var cur_fontsize = $('body').css('font-size');
 
-	for (i = 0; (a = document.getElementsByTagName('link')[i]); i++)
+	switch(cur_fontsize)
 	{
-		if (a.getAttribute('rel').indexOf('style') != -1 && a.getAttribute('title') && !a.disabled)
-		{
-			return a.getAttribute('title');
-		}
+		case '8px':
+			return 'A--';
+		break;
+		case '9px':
+			return 'A-';
+		break;
+		case '10px':
+			return 'A';
+		break;
+		case '11px':
+			return 'A+';
+		break;
+		case '12px':
+			return 'A++';
+		break;
+		default:
+			return null;
 	}
-
-	return null;
 }
 
 function getPreferredStyleSheet()
