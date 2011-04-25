@@ -5,8 +5,8 @@
 	var text_name = 'signature';
 
 	// Define the bbCode tags
-	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbcode = [];
+	var bbtags = ['[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->];
 	var imageTag = false;
 
 	// Helpline messages
@@ -33,7 +33,7 @@
 
 // ]]>
 </script>
-<script type="text/javascript" src="{T_TEMPLATE_PATH}/editor.js"></script>
+<script type="text/javascript" src="{T_ASSETS_PATH}/javascripts/editor.js"></script>
 
 <form id="user_signature" method="post" action="{U_ACTION}">
 

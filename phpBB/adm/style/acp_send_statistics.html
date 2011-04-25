@@ -17,8 +17,8 @@ function iframe_updated()
 		return;
 	}
 
-	dE('questionnaire-form', -1);
-	dE('questionnaire-thanks', 1);
+	$('#questionnaire-form').hide();
+	$('#questionnaire-thanks').show();
 }
 //]]>
 </script>
@@ -31,10 +31,10 @@ function iframe_updated()
 
 	<p>{L_EXPLAIN_SHOW_STATISTICS}</p>
 
-	<p id="show-button"><input type="button" class="button2" onclick="dE('configlist', 1); dE('show-button', -1);" value="{L_SHOW_STATISTICS}" /></p>
+	<p id="show-button"><input type="button" class="button2" onclick="$('#configlist').show(); $('#show-button').hide();" value="{L_SHOW_STATISTICS}" /></p>
 
 	<div id="configlist">
-		<input type="button" class="button2" onclick="dE('show-button', 1); dE('configlist', -1);" value="{L_HIDE_STATISTICS}" />
+		<input type="button" class="button2" onclick="$('#show-button').show(); $('#configlist').hide();" value="{L_HIDE_STATISTICS}" />
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{L_SEND_STATISTICS}" />
 		</p>
@@ -63,8 +63,7 @@ function iframe_updated()
 
 <script type="text/javascript">
 //<![CDATA[
-	dE('configlist', -1);
-	dE('questionnaire-thanks', -1);
+	$('#configlist, #questionnaire-thanks').hide();
 //]]>
 </script>
 

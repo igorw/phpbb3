@@ -11,6 +11,7 @@
 
 <link href="style/admin.css" rel="stylesheet" type="text/css" media="screen" />
 
+<script type="text/javascript" src="{T_ASSETS_PATH}/javascripts/jquery.js"></script>
 <script type="text/javascript">
 // <![CDATA[
 var jump_page = '{LA_JUMP_PAGE}:';
@@ -39,25 +40,6 @@ function jumpto()
 			document.location.href = base_url.replace(/&amp;/g, '&') + '&start=' + ((page - 1) * per_page);
 		}
 	}
-}
-
-/**
-* Set display of page element
-* s[-1,0,1] = hide,toggle display,show
-*/
-function dE(n, s, type)
-{
-	if (!type)
-	{
-		type = 'block';
-	}
-
-	var e = document.getElementById(n);
-	if (!s)
-	{
-		s = (e.style.display == '') ? -1 : 1;
-	}
-	e.style.display = (s == 1) ? type : 'none';
 }
 
 /**

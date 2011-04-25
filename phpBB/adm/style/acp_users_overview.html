@@ -76,11 +76,11 @@
 		{
 			if (option != 'banuser' && option != 'banemail' && option != 'banip')
 			{
-				dE('reasons', -1);
+				$('#reasons').hide();
 				return;
 			}
 
-			dE('reasons', 1);
+			$('#reasons').show();
 
 			element = document.getElementById('user_quick_tools').ban_reason;
 

@@ -4460,6 +4460,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 
 		'S_LOAD_UNREADS'			=> ($config['load_unreads_search'] && ($config['load_anon_lastread'] || $user->data['is_registered'])) ? true : false,
 
+		'T_ASSETS_PATH'			=> "{$web_path}assets",
 		'T_THEME_PATH'			=> "{$web_path}styles/" . $user->theme['theme_path'] . '/theme',
 		'T_TEMPLATE_PATH'		=> "{$web_path}styles/" . $user->theme['template_path'] . '/template',
 		'T_SUPER_TEMPLATE_PATH'	=> (isset($user->theme['template_inherit_path']) && $user->theme['template_inherit_path']) ? "{$web_path}styles/" . $user->theme['template_inherit_path'] . '/template' : "{$web_path}styles/" . $user->theme['template_path'] . '/template',

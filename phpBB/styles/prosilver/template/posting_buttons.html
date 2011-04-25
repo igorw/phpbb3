@@ -7,8 +7,8 @@
 	var upload = false;
 
 	// Define the bbCode tags
-	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbcode = [];
+	var bbtags = ['[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->];
 	var imageTag = false;
 
 	// Helpline messages
@@ -32,13 +32,13 @@
 		<!-- END custom_tags -->
 	}
 
-	var panels = new Array('options-panel', 'attach-panel', 'poll-panel');
+	var panels = ['options-panel', 'attach-panel', 'poll-panel'];
 	var show_panel = 'options-panel';
 
 
 // ]]>
 </script>
-<script type="text/javascript" src="{T_SUPER_TEMPLATE_PATH}/editor.js"></script>
+<script type="text/javascript" src="{T_ASSETS_PATH}/javascripts/editor.js"></script>
 
 <!-- IF S_BBCODE_ALLOWED -->
 <div id="colour_palette" style="display: none;">
@@ -49,16 +49,15 @@
 		// <![CDATA[
 			function change_palette()
 			{
-				dE('colour_palette');
-				e = document.getElementById('colour_palette');
-				
-				if (e.style.display == 'block')
+				$('#colour_palette').toggle();
+
+				if ($('#colour_palette').is(':visible'))
 				{
-					document.getElementById('bbpalette').value = '{LA_FONT_COLOR_HIDE}';
+					$('#bbpalette').val('{LA_FONT_COLOR_HIDE}');
 				}
 				else
 				{
-					document.getElementById('bbpalette').value = '{LA_FONT_COLOR}';
+					$('#bbpalette').val('{LA_FONT_COLOR}');
 				}
 			}
 

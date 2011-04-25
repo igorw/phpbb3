@@ -6,8 +6,8 @@
 // Startup variables
 var imageTag = false;
 var theSelection = false;
-var bbcodeEnabled = true;
 
+var bbcodeEnabled = true;
 // Check for Browser & Platform for PC & IE specific bits
 // More details from: http://www.mozilla.org/docs/web-developer/sniffer/browser_type.html
 var clientPC = navigator.userAgent.toLowerCase(); // Get client info
@@ -15,7 +15,6 @@ var clientVer = parseInt(navigator.appVersion); // Get browser version
 
 var is_ie = ((clientPC.indexOf('msie') != -1) && (clientPC.indexOf('opera') == -1));
 var is_win = ((clientPC.indexOf('win') != -1) || (clientPC.indexOf('16bit') != -1));
-
 var baseHeight;
 
 /**
@@ -44,8 +43,9 @@ function initInsertions()
 	}
 
 	var textarea = doc.forms[form_name].elements[text_name];
+
 	if (is_ie && typeof(baseHeight) != 'number')
-	{	
+	{
 		textarea.focus();
 		baseHeight = doc.selection.createRange().duplicate().boundingHeight;
 
@@ -78,7 +78,7 @@ function bbstyle(bbnumber)
 function bbfontstyle(bbopen, bbclose)
 {
 	theSelection = false;
-		
+
 	var textarea = document.forms[form_name].elements[text_name];
 
 	textarea.focus();
@@ -107,7 +107,7 @@ function bbfontstyle(bbopen, bbclose)
 	
 	//The new position for the cursor after adding the bbcode
 	var caret_pos = getCaretPosition(textarea).start;
-	var new_pos = caret_pos + bbopen.length;
+	var new_pos = caret_pos + bbopen.length;		
 
 	// Open tag
 	insert_text(bbopen + bbclose);
@@ -160,18 +160,17 @@ function insert_text(text, spaces, popup)
 		mozWrap(textarea, text, '');
 		textarea.selectionStart = sel_start + text.length;
 		textarea.selectionEnd = sel_end + text.length;
-	}	
-	
+	}
 	else if (textarea.createTextRange && textarea.caretPos)
 	{
 		if (baseHeight != textarea.caretPos.boundingHeight) 
 		{
 			textarea.focus();
 			storeCaret(textarea);
-		}		
+		}
+
 		var caret_pos = textarea.caretPos;
 		caret_pos.text = caret_pos.text.charAt(caret_pos.text.length - 1) == ' ' ? caret_pos.text + text + ' ' : caret_pos.text + text;
-		
 	}
 	else
 	{
@@ -180,8 +179,7 @@ function insert_text(text, spaces, popup)
 	if (!popup) 
 	{
 		textarea.focus();
-	} 	
-
+	}
 }
 
 /**
@@ -276,11 +274,10 @@ function addquote(post_id, username, l_wrote)
 	return;
 }
 
-
 function split_lines(text)
 {
 	var lines = text.split('\n');
-	var splitLines = new Array();
+	var splitLines = [];
 	var j = 0;
 	for(i = 0; i < lines.length; i++)
 	{
@@ -313,7 +310,6 @@ function split_lines(text)
 	}
 	return splitLines;
 }
-
 /**
 * From http://www.massless.org/mozedit/
 */
@@ -360,16 +356,10 @@ function storeCaret(textEl)
 function colorPalette(dir, width, height)
 {
 	var r = 0, g = 0, b = 0;
-	var numberList = new Array(6);
+	var numberList = ['00', '40', '80', 'BF', 'FF'];
 	var color = '';
 
-	numberList[0] = '00';
-	numberList[1] = '40';
-	numberList[2] = '80';
-	numberList[3] = 'BF';
-	numberList[4] = 'FF';
-
-	document.writeln('<table cellspacing="1" cellpadding="0" border="0">');
+	document.writeln('<table class="type2" cellspacing="1" cellpadding="0" border="0">');
 
 	for (r = 0; r < 5; r++)
 	{
@@ -434,6 +424,7 @@ function getCaretPosition(txtarea)
 	// dirty and slow IE way
 	else if(document.selection)
 	{
+	
 		// get current selection
 		var range = document.selection.createRange();
 
@@ -452,7 +443,7 @@ function getCaretPosition(txtarea)
 	
 		// we ignore the end value for IE, this is already dirty enough and we don't need it
 		caretPos.start = txtarea.sel_start;
-		caretPos.end = txtarea.sel_start;
+		caretPos.end = txtarea.sel_start;			
 	}
 
 	return caretPos;

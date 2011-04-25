@@ -82,11 +82,11 @@
 		{
 			if (value == 0)
 			{
-				dE('img_dimensions', -1);
+				$('#img_dimensions').hide();
 			}
 			else
 			{
-				dE('img_dimensions', 1);
+				$('#img_dimensions').show();
 			}
 		}
 
@@ -94,12 +94,11 @@
 		* Init the wanted display functionality if javascript is enabled.
 		* If javascript is not available, the user is still able to properly administer.
 		*/
-		onload = function()
-		{
-			<!-- IF not IMAGE_SIZE -->
-				dE('img_dimensions', -1);
-			<!-- ENDIF -->
-		}
+		<!-- IF not IMAGE_SIZE -->
+		$(function () {
+				$('#img_dimensions').hide();
+		});
+		<!-- ENDIF -->
 	// ]]>
 	</script>
 
