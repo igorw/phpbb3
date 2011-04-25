@@ -114,7 +114,6 @@ $lang = array_merge($lang, array(
 
 	'CANCEL'				=> 'Cancel',
 	'CHANGE'				=> 'Change',
-	'CHANGE_FONT_SIZE'		=> 'Change font size',
 	'CHANGING_PREFERENCES'	=> 'Changing board preferences',
 	'CHANGING_PROFILE'		=> 'Changing profile settings',
 	'CLICK_VIEW_PRIVMSG'	=> '%sGo to your inbox%s',
