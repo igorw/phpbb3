@@ -353,7 +353,7 @@ class auth_admin extends auth
 			// Make sure every role (even if empty) has its array defined
 			foreach ($roles as $_role_id => $null)
 			{
-				$s_role_js_array[$_role_id] = "\n" . 'role_options[' . $_role_id . '] = new Array();' . "\n";
+				$s_role_js_array[$_role_id] = "\n" . 'role_options[' . $_role_id . '] = [];' . "\n";
 			}
 
 			$sql = 'SELECT r.role_id, o.auth_option, r.auth_setting

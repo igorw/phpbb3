@@ -277,7 +277,7 @@ function addquote(post_id, username, l_wrote)
 function split_lines(text)
 {
 	var lines = text.split('\n');
-	var splitLines = new Array();
+	var splitLines = [];
 	var j = 0;
 	for(i = 0; i < lines.length; i++)
 	{
@@ -356,14 +356,8 @@ function storeCaret(textEl)
 function colorPalette(dir, width, height)
 {
 	var r = 0, g = 0, b = 0;
-	var numberList = new Array(6);
+	var numberList = ['00', '40', '80', 'BF', 'FF'];
 	var color = '';
-
-	numberList[0] = '00';
-	numberList[1] = '40';
-	numberList[2] = '80';
-	numberList[3] = 'BF';
-	numberList[4] = 'FF';
 
 	document.writeln('<table class="type2" cellspacing="1" cellpadding="0" border="0">');
 

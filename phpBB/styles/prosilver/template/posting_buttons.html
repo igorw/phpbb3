@@ -7,8 +7,8 @@
 	var upload = false;
 
 	// Define the bbCode tags
-	var bbcode = new Array();
-	var bbtags = new Array('[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->);
+	var bbcode = [];
+	var bbtags = ['[b]','[/b]','[i]','[/i]','[u]','[/u]','[quote]','[/quote]','[code]','[/code]','[list]','[/list]','[list=]','[/list]','[img]','[/img]','[url]','[/url]','[flash=]', '[/flash]','[size=]','[/size]'<!-- BEGIN custom_tags -->, {custom_tags.BBCODE_NAME}<!-- END custom_tags -->];
 	var imageTag = false;
 
 	// Helpline messages
@@ -32,7 +32,7 @@
 		<!-- END custom_tags -->
 	}
 
-	var panels = new Array('options-panel', 'attach-panel', 'poll-panel');
+	var panels = ['options-panel', 'attach-panel', 'poll-panel'];
 	var show_panel = 'options-panel';
 
 
@@ -50,15 +50,14 @@
 			function change_palette()
 			{
 				$('#colour_palette').toggle();
-				e = document.getElementById('colour_palette');
-				
-				if (e.style.display == 'block')
+
+				if ($('#colour_palette').is(':visible'))
 				{
-					document.getElementById('bbpalette').value = '{LA_FONT_COLOR_HIDE}';
+					$('#bbpalette').val('{LA_FONT_COLOR_HIDE}');
 				}
 				else
 				{
-					document.getElementById('bbpalette').value = '{LA_FONT_COLOR}';
+					$('#bbpalette').val('{LA_FONT_COLOR}');
 				}
 			}
 
