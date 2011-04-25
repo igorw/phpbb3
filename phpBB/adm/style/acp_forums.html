@@ -14,45 +14,39 @@
 			<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_POST -->
 				if (value == {FORUM_POST})
 				{
-					dE('type_actions', -1);
+					$('#type_actions').hide();
 				}
 				else
 				{
-					dE('type_actions', 1);
+					$('#type_actions').show();
 				}
 			<!-- ENDIF -->
 
 			<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_CAT and S_HAS_SUBFORUMS -->
 				if (value == {FORUM_LINK})
 				{
-					dE('cat_to_link_actions', 1);
+					$('#cat_to_link_actions').show();
 				}
 				else
 				{
-					dE('cat_to_link_actions', -1);
+					$('#cat_to_link_actions').hide();
 				}
 			<!-- ENDIF -->
 
 			if (value == {FORUM_POST})
 			{
-				dE('forum_post_options', 1);
-				dE('forum_link_options', -1);
-				dE('forum_rules_options', 1);
-				dE('forum_cat_options', -1);
+				$('#forum_post_options, #forum_rules_options').show();
+				$('#forum_link_options, #forum_cat_options').hide();
 			}
 			else if (value == {FORUM_LINK})
 			{
-				dE('forum_post_options', -1);
-				dE('forum_link_options', 1);
-				dE('forum_rules_options', -1);
-				dE('forum_cat_options', -1);
+				$('#forum_link_options').show();
+				$('#forum_post_options, #forum_rules_options, #forum_cat_options').hide();
 			}
 			else if (value == {FORUM_CAT})
 			{
-				dE('forum_post_options', -1);
-				dE('forum_link_options', -1);
-				dE('forum_rules_options', 1);
-				dE('forum_cat_options', 1);
+				$('#forum_rules_options, #forum_cat_options').show();
+				$('#forum_post_options, #forum_link_options, #forum_cat_options').hide();
 			}
 		}
 
@@ -64,30 +58,30 @@
 		{
 			<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_POST -->
 				<!-- IF S_FORUM_POST -->
-					dE('type_actions', -1);
+					$('#type_actions').hide();
 				<!-- ENDIF -->
 			<!-- ENDIF -->
 
 			<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_CAT and S_HAS_SUBFORUMS -->
 				<!-- IF S_FORUM_CAT -->
-					dE('cat_to_link_actions', -1);
+					$('#cat_to_link_actions').hide();
 				<!-- ENDIF -->
 			<!-- ENDIF -->
 
 			<!-- IF not S_FORUM_POST -->
-				dE('forum_post_options', -1);
+				$('#forum_post_options').hide();
 			<!-- ENDIF -->
 
 			<!-- IF not S_FORUM_CAT -->
-				dE('forum_cat_options', -1);
+				$('#forum_cat_options').hide();
 			<!-- ENDIF -->
 
 			<!-- IF not S_FORUM_LINK -->
-				dE('forum_link_options', -1);
+				$('#forum_link_options').hide();
 			<!-- ENDIF -->
 
 			<!-- IF S_FORUM_LINK -->
-			dE('forum_rules_options', -1);
+				$('#forum_rules_options').hide();
 			<!-- ENDIF -->
 		}
 

@@ -214,7 +214,7 @@ function swap_options(pmask, fmask, cat, adv, view)
 
 	if (adv_block.style.display == 'block' && adv == true)
 	{
-		dE('advanced' + pmask + fmask, -1);
+		$('#advanced' + pmask + fmask).hide();
 		reset_opacity(1);
 		display_checkboxes(false);
 		return;
@@ -249,12 +249,12 @@ function swap_options(pmask, fmask, cat, adv, view)
 		return;
 	}
 
-	dE('options' + active_option, -1);
+	$('#options' + active_option).hide();
 	
 	//hiding and showing the checkbox
 	if (document.getElementById('checkbox' + active_pmask + active_fmask))
 	{
-		dE('checkbox' + pmask + fmask, -1);	
+		$('#checkbox' + pmask + fmask).hide();
 		
 		if ((pmask + fmask) != (active_pmask + active_fmask))
 		{
@@ -264,14 +264,14 @@ function swap_options(pmask, fmask, cat, adv, view)
 
 	if (!view)
 	{
-		dE('advanced' + active_pmask + active_fmask, -1);
+		$('#advanced' + active_pmask + active_fmask).hide();
 	}
 
 	if (!view)
 	{
-		dE('advanced' + pmask + fmask, 1);
+		$('#advanced' + pmask + fmask).show();
 	}
-	dE('options' + id, 1);
+	$('#options' + id).show();
 
 	active_pmask = pmask;
 	active_fmask = fmask;

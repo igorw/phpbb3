@@ -2,8 +2,7 @@
 // <![CDATA[
 	function hide_qr(show)
 	{
-		dE('qr_editor_div');
-		dE('qr_showeditor_div');
+		$('#qr_editor_div, #qr_showeditor_div').toggle();
 		if (show && document.getElementById('qr_editor_div').style.display != 'none')
 		{
 			document.getElementsByName('message')[0].focus();
@@ -14,7 +13,7 @@
 
 	function init_qr()
 	{
-		dE('qr_showeditor_div');
+		$('#qr_showeditor_div').toggle();
 		return true;
 	}
 	$(window).load(init_qr);
