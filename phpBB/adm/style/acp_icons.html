@@ -6,8 +6,8 @@
 
 	<script type="text/javascript" defer="defer">
 	// <![CDATA[
-	<!-- IF S_ADD_CODE -->
-	
+	(function ($) {
+		<!-- IF S_ADD_CODE -->
 			var smiley = Array();
 			<!-- BEGIN smile -->
 				smiley['{smile.SMILEY_URL}'] = Array();
@@ -37,29 +37,28 @@
 					}
 				}
 			}
-		
-	<!-- ENDIF -->
-
+		<!-- ENDIF -->
 	
-	function toggle_select(icon, display, select)
-	{
-		var disp = $('#order_disp_' + select).get();
-		var nodisp = $('#order_no_disp_' + select).get();
-		disp.disabled = !display;
-		nodisp.disabled = display;
-		if (display)
+		function toggle_select(icon, display, select)
 		{
-			$('#order_' + select).get().selectedIndex = 0;
-			nodisp.className = 'disabled-options';
-			disp.className = '';
+			var disp = $('#order_disp_' + select).get();
+			var nodisp = $('#order_no_disp_' + select).get();
+			disp.disabled = !display;
+			nodisp.disabled = display;
+			if (display)
+			{
+				$('#order_' + select).get().selectedIndex = 0;
+				nodisp.className = 'disabled-options';
+				disp.className = '';
+			}
+			else
+			{
+				$('#order_' + select).get().selectedIndex = {S_ORDER_LIST_DISPLAY_COUNT};
+				disp.className = 'disabled-options';
+				nodisp.className = '';
+			}
 		}
-		else
-		{
-			$('#order_' + select).get().selectedIndex = {S_ORDER_LIST_DISPLAY_COUNT};
-			disp.className = 'disabled-options';
-			nodisp.className = '';
-		}
-	}
+	})(jQuery);
 	// ]]>
 	</script>
 

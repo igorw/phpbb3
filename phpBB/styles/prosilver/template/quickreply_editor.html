@@ -1,5 +1,6 @@
 <script type="text/javascript">
 // <![CDATA[
+(function ($) {
 	function hide_qr(show)
 	{
 		$('#qr_editor_div, #qr_showeditor_div').toggle();
@@ -17,7 +18,8 @@
 		return true;
 	}
 	$(window).load(init_qr);
-	// ]]>
+})(jQuery);
+// ]]>
 </script>
 <noscript>
 	<form method="post" action="{U_QR_ACTION}">

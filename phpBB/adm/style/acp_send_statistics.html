@@ -8,18 +8,20 @@
 
 <script type="text/javascript">
 //<![CDATA[
-var iframect = 0;
+(function ($) {
+	var iframect = 0;
 
-function iframe_updated()
-{
-	if (iframect++ == 0)
+	function iframe_updated()
 	{
-		return;
-	}
+		if (iframect++ == 0)
+		{
+			return;
+		}
 
-	$('#questionnaire-form').hide();
-	$('#questionnaire-thanks').show();
-}
+		$('#questionnaire-form').hide();
+		$('#questionnaire-thanks').show();
+	}
+})(jQuery);
 //]]>
 </script>
 
@@ -31,10 +33,10 @@ function iframe_updated()
 
 	<p>{L_EXPLAIN_SHOW_STATISTICS}</p>
 
-	<p id="show-button"><input type="button" class="button2" onclick="$('#configlist').show(); $('#show-button').hide();" value="{L_SHOW_STATISTICS}" /></p>
+	<p id="show-button"><input type="button" class="button2" onclick="jQuery('#configlist').show(); jQuery('#show-button').hide();" value="{L_SHOW_STATISTICS}" /></p>
 
 	<div id="configlist">
-		<input type="button" class="button2" onclick="$('#show-button').show(); $('#configlist').hide();" value="{L_HIDE_STATISTICS}" />
+		<input type="button" class="button2" onclick="jQuery('#show-button').show(); jQuery('#configlist').hide();" value="{L_HIDE_STATISTICS}" />
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{L_SEND_STATISTICS}" />
 		</p>
@@ -63,7 +65,9 @@ function iframe_updated()
 
 <script type="text/javascript">
 //<![CDATA[
+(function ($) {
 	$('#configlist, #questionnaire-thanks').hide();
+})(jQuery);
 //]]>
 </script>
 

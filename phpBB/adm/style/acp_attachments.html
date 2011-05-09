@@ -118,6 +118,7 @@
 	<!-- IF S_EDIT_GROUP -->
 		<script type="text/javascript" defer="defer">
 		// <![CDATA[
+		(function ($) {
 			function update_image(newimage)
 			{
 				if (newimage == 'no_image')
@@ -161,7 +162,7 @@
 					document.getElementById('ext').firstChild.nodeValue = str;
 				}
 			}
-
+		})(jQuery);
 		// ]]>
 		</script>
 

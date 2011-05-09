@@ -67,6 +67,7 @@
 
 	<script type="text/javascript" defer="defer">
 	// <![CDATA[
+	(function ($) {
 		function update_image(newimage)
 		{
 			$('#newimg').get().src = (newimage) ? '../styles/{A_PATH}/imageset/' + encodeURI(newimage) : 'images/no_image.png';
@@ -99,6 +100,7 @@
 				$('#img_dimensions').hide();
 		});
 		<!-- ENDIF -->
+	})(jQuery);
 	// ]]>
 	</script>
 
@@ -192,7 +194,7 @@
 	<!-- IF TEMPLATE_FILE or (S_EDIT_THEME and S_THEME_IN_DB) -->
 		<script type="text/javascript" defer="defer">
 		// <![CDATA[
-
+		(function ($) {
 			function change_editor_height(height)
 			{
 				height = Number(height);
@@ -243,6 +245,7 @@
 				}
 			}
 
+		})(jQuery);
 		// ]]>
 		</script>
 

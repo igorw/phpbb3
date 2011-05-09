@@ -4,18 +4,19 @@
 
 <script type="text/javascript">
 // <![CDATA[
-var panels = ['display-panel', 'split-panel', 'merge-panel'];
+(function ($) {
+	var panels = ['display-panel', 'split-panel', 'merge-panel'];
 
-<!-- IF S_MERGE_VIEW -->
-	var show_panel = 'merge-panel';
-<!-- ELSEIF S_SPLIT_VIEW -->
-	var show_panel = 'split-panel';
-<!-- ELSE -->
-	var show_panel = 'display-panel';
-<!-- ENDIF -->
+	<!-- IF S_MERGE_VIEW -->
+		var show_panel = 'merge-panel';
+	<!-- ELSEIF S_SPLIT_VIEW -->
+		var show_panel = 'split-panel';
+	<!-- ELSE -->
+		var show_panel = 'display-panel';
+	<!-- ENDIF -->
 
-$(window).load(subPanels);
-
+	$(window).load(subPanels);
+})(jQuery);
 // ]]>
 </script>
 
