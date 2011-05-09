@@ -122,11 +122,11 @@
 			{
 				if (newimage == 'no_image')
 				{
-					document.getElementById('image_upload_icon').src = "{PHPBB_ROOT_PATH}images/spacer.gif";
+					$('#image_upload_icon').attr('src', "{PHPBB_ROOT_PATH}images/spacer.gif");
 				}
 				else
 				{
-					document.getElementById('image_upload_icon').src = "{PHPBB_ROOT_PATH}{IMG_PATH}/" + newimage;
+					$('#image_upload_icon').attr('src', "{PHPBB_ROOT_PATH}{IMG_PATH}/" + newimage);
 				}
 			}
 

@@ -20,19 +20,8 @@
 
 		function display_modes(value)
 		{
-			// Find the old select tag
-			var item = document.getElementById('module_mode');
-
-			// Create the new select tag
-			var new_node = document.createElement('select');
-			new_node.setAttribute('id', 'module_mode');
-			new_node.setAttribute('name', 'module_mode');
-
-			// Substitute it for the old one
-			item.parentNode.replaceChild(new_node, item);
-
-			// Reset the variable
-			item = document.getElementById('module_mode');
+			var item = $('<select id="module_mode" name="module_mode"></select>');
+			$('#module_mode').replaceWith(item);
 
 			var j = 0;
 <!-- BEGIN m_names -->
@@ -40,15 +29,15 @@
 			if (value == '{m_names.A_NAME}')
 			{
 	<!-- BEGIN modes -->
-				item.options[j] = new Option('{m_names.modes.A_VALUE}');
-				item.options[j].value = '{m_names.modes.A_OPTION}';
+				item.get().options[j] = new Option('{m_names.modes.A_VALUE}');
+				item.get().options[j].value = '{m_names.modes.A_OPTION}';
 				j++;
 	<!-- END modes -->
 			}
 <!-- END m_names -->
 
 			// select first item
-			item.options[0].selected = true;
+			item.get().options[0].selected = true;
 		}
 
 	// ]]>

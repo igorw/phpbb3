@@ -31,9 +31,9 @@
 
 	function display_details(option)
 	{
-		document.getElementById('acp_unban').unbangivereason.innerHTML = ban_give_reason[option];
-		document.getElementById('acp_unban').unbanreason.innerHTML = ban_reason[option];
-		document.getElementById('acp_unban').unbanlength.value = ban_length[option];
+		$('#acp_unban #unbangivereason').html(ban_give_reason[option]);
+		$('#acp_unban #unbanreason').html(ban_reason[option]);
+		$('#acp_unban #unbanlength').val(ban_length[option]);
 	}
 
 // ]]>
@@ -50,7 +50,7 @@
 </dl>
 <dl>
 	<dt><label for="banlength">{L_BAN_LENGTH}:</label></dt>
-	<dd><label for="banlength"><select name="banlength" id="banlength" onchange="if(this.value==-1){document.getElementById('banlengthother').style.display = 'block';}else{document.getElementById('banlengthother').style.display='none';}">{S_BAN_END_OPTIONS}</select></label></dd>
+	<dd><label for="banlength"><select name="banlength" id="banlength" onchange="if(this.value==-1){$('#banlengthother').show();}else{$('#banlengthother').hide();}">{S_BAN_END_OPTIONS}</select></label></dd>
 	<dd id="banlengthother" style="display: none;"><label><input type="text" name="banlengthother" class="inputbox" /><br /><span>{L_YEAR_MONTH_DAY}</span></label></dd>
 </dl>
 <dl>

@@ -69,7 +69,7 @@
 	// <![CDATA[
 		function update_image(newimage)
 		{
-			document.getElementById('newimg').src = (newimage) ? '../styles/{A_PATH}/imageset/' + encodeURI(newimage) : 'images/no_image.png';
+			$('#newimg').get().src = (newimage) ? '../styles/{A_PATH}/imageset/' + encodeURI(newimage) : 'images/no_image.png';
 		}
 	// ]]>
 	</script>
@@ -202,7 +202,7 @@
 					return;
 				}
 
-				editor = document.getElementById('template_data');
+				editor = $('#template_data').get();
 				editor.rows = Math.max(5, Math.min(height, 999));
 
 				append_text_rows('acp_styles', height);

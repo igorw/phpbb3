@@ -22,13 +22,13 @@
 			{
 				var use_element = smiley[newimage];
 
-				document.getElementById('add_image_src').src = '{PHPBB_ROOT_PATH}{IMG_PATH}/' + encodeURI(newimage);
-				document.getElementById('add_code').value = use_element['code'];
-				document.getElementById('add_emotion').value = use_element['emotion'];
-				document.getElementById('add_width').value = use_element['width'];
-				document.getElementById('add_height').value = use_element['height'];
+				$('#add_image_src').attr('src', '{PHPBB_ROOT_PATH}{IMG_PATH}/' + encodeURI(newimage));
+				$('#add_code').val(use_element['code']);
+				$('#add_emotion').val(use_element['emotion']);
+				$('#add_width').val(use_element['width']);
+				$('#add_height').val(use_element['height']);
 
-				element = document.getElementById('add_order');
+				element = $('#add_order').get();
 				for (var i = 0; i < element.length; i++)
 				{
 					if (element.options[i].value == use_element['order'])
@@ -43,19 +43,19 @@
 	
 	function toggle_select(icon, display, select)
 	{
-		var disp = document.getElementById('order_disp_' + select);
-		var nodisp = document.getElementById('order_no_disp_' + select);
+		var disp = $('#order_disp_' + select).get();
+		var nodisp = $('#order_no_disp_' + select).get();
 		disp.disabled = !display;
 		nodisp.disabled = display;
 		if (display)
 		{
-			document.getElementById('order_' + select).selectedIndex = 0;
+			$('#order_' + select).get().selectedIndex = 0;
 			nodisp.className = 'disabled-options';
 			disp.className = '';
 		}
 		else
 		{
-			document.getElementById('order_' + select).selectedIndex = {S_ORDER_LIST_DISPLAY_COUNT};
+			$('#order_' + select).get().selectedIndex = {S_ORDER_LIST_DISPLAY_COUNT};
 			disp.className = 'disabled-options';
 			nodisp.className = '';
 		}
