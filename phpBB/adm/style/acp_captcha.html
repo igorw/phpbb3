@@ -41,7 +41,7 @@
 <legend>{L_AVAILABLE_CAPTCHAS}</legend>
 <dl>
 	<dt><label for="captcha_select">{L_CAPTCHA_SELECT}:</label><br /><span>{L_CAPTCHA_SELECT_EXPLAIN}</span></dt>
-	<dd><select id="captcha_select" name="select_captcha" onchange="jQuery('#acp_captcha').submit()" >{CAPTCHA_SELECT}</select></dd>
+	<dd><select id="captcha_select" name="select_captcha">{CAPTCHA_SELECT}</select></dd>
 </dl>
  <!-- IF S_CAPTCHA_HAS_CONFIG -->
 <dl>
@@ -67,5 +67,17 @@
 	{S_FORM_TOKEN}
 </fieldset>
 </form>
+
+<script type="text/javascript">
+// <![CDATA[
+(function ($) {
+	$(function () {
+		$('#captcha_select').change(function () {
+			$('#acp_captcha').submit();
+		});
+	});
+})(jQuery);
+// ]]>
+</script>
 
 <!-- INCLUDE overall_footer.html -->

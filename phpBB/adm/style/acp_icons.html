@@ -8,9 +8,9 @@
 	// <![CDATA[
 	(function ($) {
 		<!-- IF S_ADD_CODE -->
-			var smiley = Array();
+			var smiley = {};
 			<!-- BEGIN smile -->
-				smiley['{smile.SMILEY_URL}'] = Array();
+				smiley['{smile.SMILEY_URL}'] = {};
 				smiley['{smile.SMILEY_URL}']['code'] = '{smile.CODE}';
 				smiley['{smile.SMILEY_URL}']['emotion'] = '{smile.EMOTION}';
 				smiley['{smile.SMILEY_URL}']['width'] = {smile.WIDTH};
@@ -38,7 +38,7 @@
 				}
 			}
 		<!-- ENDIF -->
-	
+
 		function toggle_select(icon, display, select)
 		{
 			var disp = $('#order_disp_' + select).get();
@@ -58,6 +58,12 @@
 				nodisp.className = '';
 			}
 		}
+
+		$(function () {
+			$('#add_image').change(function () {
+				update_image($(this).val());
+			});
+		});
 	})(jQuery);
 	// ]]>
 	</script>
@@ -100,7 +106,7 @@
 	<tbody>
 	<!-- BEGIN items -->
 		<!-- IF items.S_ROW_COUNT is even --><tr class="row1"><!-- ELSE --><tr class="row2"><!-- ENDIF -->
-	
+
 		<td style="text-align: center;"><img src="{items.IMG_SRC}" alt="" title="" /><input type="hidden" name="image[{items.IMG}]" value="1" /></td>
 		<td style="vertical-align: top;">[{items.IMG}]</td>
 		<!-- IF S_SMILIES -->
@@ -120,7 +126,7 @@
 				<optgroup id="order_disp_{items.S_ROW_COUNT}" label="{L_DISPLAY_POSTING}" <!-- IF not items.POSTING_CHECKED -->disabled="disabled" class="disabled-options" <!-- ENDIF -->>{S_ORDER_LIST_DISPLAY}</optgroup>
 				<optgroup id="order_no_disp_{items.S_ROW_COUNT}" label="{L_DISPLAY_POSTING_NO}" <!-- IF  items.POSTING_CHECKED -->disabled="disabled" class="disabled-options" <!-- ENDIF -->>{S_ORDER_LIST_UNDISPLAY}</optgroup>
 			</select></td>
-		<!-- ENDIF -->	
+		<!-- ENDIF -->
 		<!-- IF S_ADD -->
 			<td><input type="checkbox" class="radio" name="add_img[{items.IMG}]" value="1" /></td>
 		<!-- ENDIF -->
@@ -131,7 +137,7 @@
 		<th colspan="{COLSPAN}">{L_ADD_SMILEY_CODE}</th>
 	</tr>
 	<tr class="row1">
-		<td style="text-align: center;"><select name="add_image" id="add_image" onchange="update_image(this.options[selectedIndex].value);">{S_IMG_OPTIONS}</select></td>
+		<td style="text-align: center;"><select name="add_image" id="add_image">{S_IMG_OPTIONS}</select></td>
 		<td style="vertical-align: top;"><img src="{IMG_SRC}" id="add_image_src" alt="" title="" /></td>
 		<td><input class="text post" type="text" name="add_code" id="add_code" value="{CODE}" size="10" maxlength="50" /></td>
 		<td><input class="text post" type="text" name="add_emotion" id="add_emotion" value="{EMOTION}" size="10" maxlength="50" /></td>
@@ -173,7 +179,7 @@
 
 	<fieldset>
 		<legend>{L_IMPORT}</legend>
-	
+
 	<!-- IF not S_PAK_OPTIONS -->
 		<p>{L_NO_PAK_OPTIONS}</p>
 

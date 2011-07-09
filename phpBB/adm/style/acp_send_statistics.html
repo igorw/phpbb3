@@ -21,6 +21,20 @@
 		$('#questionnaire-form').hide();
 		$('#questionnaire-thanks').show();
 	}
+
+	$(function () {
+		$('#configlist, #questionnaire-thanks').hide();
+
+		$('#show-button input[type=button]').click(function () {
+			$('#configlist').show();
+			$('#show-button').hide();
+		});
+
+		$('#configlist input[type=button]').click(function () {
+			$('#show-button').show();
+			$('#configlist').hide();
+		});
+	});
 })(jQuery);
 //]]>
 </script>
@@ -33,10 +47,10 @@
 
 	<p>{L_EXPLAIN_SHOW_STATISTICS}</p>
 
-	<p id="show-button"><input type="button" class="button2" onclick="jQuery('#configlist').show(); jQuery('#show-button').hide();" value="{L_SHOW_STATISTICS}" /></p>
+	<p id="show-button"><input type="button" class="button2" value="{L_SHOW_STATISTICS}" /></p>
 
 	<div id="configlist">
-		<input type="button" class="button2" onclick="jQuery('#show-button').show(); jQuery('#configlist').hide();" value="{L_HIDE_STATISTICS}" />
+		<input type="button" class="button2" value="{L_HIDE_STATISTICS}" />
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{L_SEND_STATISTICS}" />
 		</p>
@@ -62,13 +76,5 @@
 <div id="questionnaire-thanks" class="successbox">
 	<p><strong>{L_THANKS_SEND_STATISTICS}</strong><br /><br /><a href="{U_ACP_MAIN}">&laquo; {L_GO_ACP_MAIN}</a></p>
 </div>
-
-<script type="text/javascript">
-//<![CDATA[
-(function ($) {
-	$('#configlist, #questionnaire-thanks').hide();
-})(jQuery);
-//]]>
-</script>
 
 <!-- INCLUDE overall_footer.html -->

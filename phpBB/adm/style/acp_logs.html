@@ -2,6 +2,21 @@
 
 <a name="maincontent"></a>
 
+<script type="text/javascript" defer="defer">
+// <![CDATA[
+(function ($) {
+	$(function () {
+		$('#select[name=f]').change(function () {
+			if ($(this.val() != -1)
+			{
+				this.form.submit();
+			}
+		});
+	});
+})(jQuery);
+// ]]>
+</script>
+
 <h1>{L_TITLE}</h1>
 
 <p>{L_EXPLAIN}</p>
@@ -75,7 +90,7 @@
 
 <!-- IF S_SHOW_FORUMS -->
 	<fieldset class="quick">
-		{L_SELECT_FORUM}: <select name="f" onchange="if(this.options[this.selectedIndex].value != -1){ this.form.submit(); }">{S_FORUM_BOX}</select>
+		{L_SELECT_FORUM}: <select name="f">{S_FORUM_BOX}</select>
 		<input class="button2" type="submit" value="{L_GO}" />
 	</fieldset>
 <!-- ENDIF -->

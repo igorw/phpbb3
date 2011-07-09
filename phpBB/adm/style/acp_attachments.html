@@ -149,19 +149,18 @@
 					}
 				}
 
-				if (document.all)
-				{
-					document.all.ext.innerText = str;
-				}
-				else if (document.getElementById('ext').textContent)
-				{
-					document.getElementById('ext').textContent = str;
-				}
-				else if (document.getElementById('ext').firstChild.nodeValue)
-				{
-					document.getElementById('ext').firstChild.nodeValue = str;
-				}
+				$(elem).text(str);
 			}
+
+			$(function () {
+				$('#upload_icon').change(function () {
+					update_image(this.options[selectedIndex].value);
+				});
+
+				$('#assigned_extensions').change(function () {
+					show_extensions(this);
+				});
+			});
 		})(jQuery);
 		// ]]>
 		</script>
@@ -190,7 +189,7 @@
 		</dl>
 		<dl>
 			<dt><label for="upload_icon">{L_UPLOAD_ICON}:</label></dt>
-			<dd><select name="upload_icon" id="upload_icon" onchange="update_image(this.options[selectedIndex].value);">
+			<dd><select name="upload_icon" id="upload_icon">
 					<option value="no_image"<!-- IF S_NO_IMAGE --> selected="selected"<!-- ENDIF -->>{L_NO_IMAGE}</option>{S_FILENAME_LIST}
 			</select></dd>
 			<dd>&nbsp;<img <!-- IF S_NO_IMAGE -->src="{PHPBB_ROOT_PATH}images/spacer.gif"<!-- ELSE -->src="{UPLOAD_ICON_SRC}"<!-- ENDIF --> id="image_upload_icon" alt="" title="" />&nbsp;</dd>
@@ -202,7 +201,7 @@
 		<dl>
 			<dt><label for="assigned_extensions">{L_ASSIGNED_EXTENSIONS}:</label></dt>
 			<dd><div id="ext">{ASSIGNED_EXTENSIONS}</div> <span>[<a href="{U_EXTENSIONS}">{L_GO_TO_EXTENSIONS}</a> ]</span></dd>
-			<dd><select name="extensions[]" id="assigned_extensions" class="narrow" onchange="show_extensions(this);" multiple="multiple" size="8">{S_EXTENSION_OPTIONS}</select></dd>
+			<dd><select name="extensions[]" id="assigned_extensions" class="narrow" multiple="multiple" size="8">{S_EXTENSION_OPTIONS}</select></dd>
 		</dl>
 		<dl>
 			<dt><label for="allowed_forums">{L_ALLOWED_FORUMS}:</label><br /><span>{L_ALLOWED_FORUMS_EXPLAIN}</span></dt>

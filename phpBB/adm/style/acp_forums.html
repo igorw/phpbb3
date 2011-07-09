@@ -55,8 +55,7 @@
 		* Init the wanted display functionality if javascript is enabled.
 		* If javascript is not available, the user is still able to properly administer.
 		*/
-		onload = function()
-		{
+		$(function () {
 			<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_POST -->
 				<!-- IF S_FORUM_POST -->
 					$('#type_actions').hide();
@@ -84,7 +83,20 @@
 			<!-- IF S_FORUM_LINK -->
 				$('#forum_rules_options').hide();
 			<!-- ENDIF -->
-		}
+		});
+
+		$(function () {
+			$('#forum_type').change(function () {
+				display_options(this.options[this.selectedIndex].value);
+			});
+
+			$('#fselect select[name=parent_id]').change(function () {
+				if ($(this).val() != -1)
+				{
+					this.form.submit();
+				}
+			});
+		});
 	})(jQuery);
 	// ]]>
 	</script>
@@ -108,7 +120,7 @@
 		<legend>{L_FORUM_SETTINGS}</legend>
 	<dl>
 		<dt><label for="forum_type">{L_FORUM_TYPE}:</label></dt>
-		<dd><select id="forum_type" name="forum_type" onchange="display_options(this.options[this.selectedIndex].value);">{S_FORUM_TYPE_OPTIONS}</select></dd>
+		<dd><select id="forum_type" name="forum_type">{S_FORUM_TYPE_OPTIONS}</select></dd>
 	</dl>
 	<!-- IF not S_ADD_ACTION and S_FORUM_ORIG_POST -->
 	<div id="type_actions">
@@ -477,7 +489,7 @@
 	<form id="fselect" method="post" action="{U_SEL_ACTION}">
 
 	<fieldset class="quick">
-		{L_SELECT_FORUM}: <select name="parent_id" onchange="if(this.options[this.selectedIndex].value != -1){ this.form.submit(); }">{FORUM_BOX}</select>
+		{L_SELECT_FORUM}: <select name="parent_id">{FORUM_BOX}</select>
 
 		<input class="button2" type="submit" value="{L_GO}" />
 		{S_FORM_TOKEN}

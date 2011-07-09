@@ -100,6 +100,12 @@
 				$('#img_dimensions').hide();
 		});
 		<!-- ENDIF -->
+
+		$(function () {
+			$('input[type=radio][name=imgsize]').click(function () {
+				display_options($(this.val()));
+			});
+		});
 	})(jQuery);
 	// ]]>
 	</script>
@@ -145,8 +151,8 @@
 	</dl>
 	<dl>
 		<dt><label for="imgsize">{L_INCLUDE_DIMENSIONS}:</label><br /><span>{L_DIMENSIONS_EXPLAIN}</span></dt>
-		<dd><label><input type="radio" class="radio" name="imgsize" id="imgsize" onclick="display_options(1);" value="1"<!-- IF IMAGE_SIZE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
-			<label><input type="radio" class="radio" name="imgsize" onclick="display_options(0);" value="0"<!-- IF not IMAGE_SIZE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
+		<dd><label><input type="radio" class="radio" name="imgsize" id="imgsize" value="1"<!-- IF IMAGE_SIZE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+			<label><input type="radio" class="radio" name="imgsize" value="0"<!-- IF not IMAGE_SIZE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label></dd>
 	</dl>
 	<div id="img_dimensions">
 		<dl>

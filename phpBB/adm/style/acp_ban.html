@@ -35,6 +35,30 @@
 		$('#acp_unban #unbanreason').html(ban_reason[option]);
 		$('#acp_unban #unbanlength').val(ban_length[option]);
 	}
+
+	$(function () {
+		$('#banlength').change(function () {
+			if ($(this).val() == -1)
+			{
+				$('#banlengthother').show();
+			}
+			else
+			{
+				$('#banlengthother').hide()
+			}
+		});
+
+		$('#unban').change(function () {
+			if (this.selectedIndex > -1)
+			{
+				display_details(this.options[this.selectedIndex].value);
+			}
+			else
+			{
+				display_details(-1);
+			}
+		});
+	});
 })(jQuery);
 // ]]>
 </script>
@@ -50,7 +74,7 @@
 </dl>
 <dl>
 	<dt><label for="banlength">{L_BAN_LENGTH}:</label></dt>
-	<dd><label for="banlength"><select name="banlength" id="banlength" onchange="if(this.value==-1){jQuery('#banlengthother').show();}else{jQuery('#banlengthother').hide();}">{S_BAN_END_OPTIONS}</select></label></dd>
+	<dd><label for="banlength"><select name="banlength" id="banlength">{S_BAN_END_OPTIONS}</select></label></dd>
 	<dd id="banlengthother" style="display: none;"><label><input type="text" name="banlengthother" class="inputbox" /><br /><span>{L_YEAR_MONTH_DAY}</span></label></dd>
 </dl>
 <dl>
@@ -89,7 +113,7 @@
 <!-- IF S_BANNED_OPTIONS -->
 	<dl>
 		<dt><label for="unban">{L_BAN_CELL}:</label></dt>
-		<dd><select id="unban" name="unban[]" multiple="multiple" size="10" style="width: 50%" onchange="if (this.selectedIndex > -1) display_details(this.options[this.selectedIndex].value); else display_details(-1);">{BANNED_OPTIONS}</select></dd>
+		<dd><select id="unban" name="unban[]" multiple="multiple" size="10" style="width: 50%">{BANNED_OPTIONS}</select></dd>
 	</dl>
 	<dl>
 		<dt><label for="unbanlength">{L_BAN_LENGTH}:</label></dt>
