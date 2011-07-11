@@ -260,7 +260,7 @@ class dbal_sqlite extends dbal
 			$query_id = $this->query_result;
 		}
 
-		if (isset($cashe) && isset($cache->sql_rowset[$query_id]))
+		if (isset($cache) && isset($cache->sql_rowset[$query_id]))
 		{
 			return $cache->sql_rowseek($rownum, $query_id);
 		}
