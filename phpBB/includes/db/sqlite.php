@@ -2,7 +2,8 @@
 /**
 *
 * @package dbal
-* @copyright (c) 2005, 2011 phpBB Group
+* @copyright (c) 2011 Boris Berdichevski
+* @copyright (c) 2011 phpBB Group
 * @license http://opensource.org/licenses/gpl-license.php GNU Public License
 *
 */
@@ -24,7 +25,6 @@ include_once($phpbb_root_path . 'includes/db/dbal.' . $phpEx);
 * <http://www.phpbb.com/community/viewtopic.php?f=70&t=1059695>
 *
 * @package dbal
-* @author Boris Berdichevski <borisba@borisba.com>
 */
 class dbal_sqlite extends dbal
 {
