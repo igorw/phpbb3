@@ -380,7 +380,7 @@ class dbal_sqlite extends dbal
 
 				$this->sql_report('record_fromcache', $query, $endtime, $splittime);
 
-				$results->finalize();
+				$result->finalize();
 			break;
 		}
 	}
@@ -392,16 +392,15 @@ class dbal_sqlite extends dbal
 	function fetch_column_types($table_name)
 	{
 		$col_types = array();
-		$col_info_res  = $this->conn->query("PRAGMA table_info('$table_name')");
 
-		while ($col_info = $col_info_res->fetchArray(SQLITE3_ASSOC))
+		$result = $this->conn->query("PRAGMA table_info('$table_name')");
+		while ($row = $col_info_res->fetchArray(SQLITE3_ASSOC))
 		{
-			$column_name = $col_info[name];
-			$column_type = $col_info[type];
+			$column_name = $row['name'];
+			$column_type = $row['type'];
 			$col_types[$column_name] = $column_type;
 		}
-
-		$col_info_res->finalize();
+		$result->finalize();
 
 		return $col_types;
 	}
