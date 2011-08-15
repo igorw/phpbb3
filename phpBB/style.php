@@ -75,6 +75,9 @@ if ($id)
 	set_config(null, null, null, $config);
 	set_config_count(null, null, null, $config);
 
+	// load extensions
+	$phpbb_extension_manager = new phpbb_extension_manager($db, EXT_TABLE, $phpbb_root_path, ".$phpEx", $cache->get_driver());
+
 	$user = false;
 
 	// try to get a session ID from REQUEST array
