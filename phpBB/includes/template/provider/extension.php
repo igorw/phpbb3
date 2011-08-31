@@ -22,8 +22,20 @@ if (!defined('IN_PHPBB'))
 *
 * @package phpBB3
 */
-class phpbb_template_path_provider extends phpbb_extension_provider
+class phpbb_template_provider_extension implements phpbb_template_provider_interface
 {
+	/**
+	* Array holding all found items
+	* @var array
+	*/
+	protected $items = array();
+
+	/**
+	* An extension manager to search for items in extensions
+	* @var phpbb_extension_manager
+	*/
+	protected $extension_manager;
+
 	protected $main_template_name = '';
 	protected $templates = array();
 	protected $ext_dir_prefix = '';
@@ -135,5 +147,15 @@ class phpbb_template_path_provider extends phpbb_extension_provider
 	private function template_root_for_style($style_name)
 	{
 		return 'styles/' . $style_name . '/template';
+	}
+
+	/**
+	* Retrieve an iterator over all items
+	*
+	* @return ArrayIterator An iterator for the array of template paths
+	*/
+	public function getIterator()
+	{
+		return new ArrayIterator($this->items);
 	}
 }

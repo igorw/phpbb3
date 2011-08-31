@@ -203,8 +203,8 @@ $config = new phpbb_config(array(
 ));
 
 $phpbb_template_locator = new phpbb_template_locator();
-$phpbb_template_path_provider = new phpbb_template_path_provider();
-$template = new phpbb_template($phpbb_root_path, $phpEx, $config, $user, $phpbb_template_locator, $phpbb_template_path_provider);
+$phpbb_template_provider = new phpbb_template_provider_extension();
+$template = new phpbb_template($phpbb_root_path, $phpEx, $config, $user, $phpbb_template_locator, $phpbb_template_provider);
 $template->set_ext_dir_prefix('adm/');
 $template->set_custom_template('../adm/style', 'admin');
 $template->assign_var('T_TEMPLATE_PATH', '../adm/style');

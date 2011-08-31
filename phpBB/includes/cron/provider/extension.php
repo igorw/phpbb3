@@ -22,8 +22,32 @@ if (!defined('IN_PHPBB'))
 *
 * @package phpBB3
 */
-class phpbb_cron_provider extends phpbb_extension_provider
+class phpbb_cron_provider_extension implements phpbb_cron_provider_interface
 {
+	/**
+	* Array holding all found items
+	* @var array
+	*/
+	protected $items = array();
+
+	/**
+	* An extension manager to search for items in extensions
+	* @var phpbb_extension_manager
+	*/
+	protected $extension_manager;
+
+	/**
+	* Constructor. Loads all available items.
+	*
+	* @param phpbb_extension_manager $extension_manager phpBB extension manager
+	*/
+	public function __construct(phpbb_extension_manager $extension_manager)
+	{
+		$this->extension_manager = $extension_manager;
+
+		$this->items = $this->find();
+	}
+
 	/**
 	* Finds cron task names using the extension manager.
 	*
@@ -46,5 +70,15 @@ class phpbb_cron_provider extends phpbb_extension_provider
 			->default_suffix('')
 			->default_directory('')
 			->get_classes();
+	}
+
+	/**
+	* Retrieve an iterator over all items
+	*
+	* @return ArrayIterator An iterator for the array of template paths
+	*/
+	public function getIterator()
+	{
+		return new ArrayIterator($this->items);
 	}
 }

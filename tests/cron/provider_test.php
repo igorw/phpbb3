@@ -22,7 +22,7 @@ class phpbb_cron_provider_test extends PHPUnit_Framework_TestCase
 					'ext_path'      => 'ext/testext/'
 				),
 			));
-		$this->provider = new phpbb_cron_provider($this->extension_manager);
+		$this->provider = new phpbb_cron_provider_extension($this->extension_manager);
 	}
 
 	public function test_manager_finds_shipped_tasks()
