@@ -1060,6 +1060,9 @@ function database_update_info()
 				GROUPS_TABLE		=> array(
 					'group_legend'		=> array('UINT', 0),
 				),
+				USERS_TABLE		=> array(
+					'user_pass_convert'	=> array('VCHAR:100', ''),
+				),
 			),
 			'drop_columns'      => array(
 			    STYLES_TABLE		    => array(
@@ -2172,7 +2175,7 @@ function change_database_data(&$no_updates, $version)
 			);
 
 			_add_modules($modules_to_install);
-			
+
 			$sql = 'DELETE FROM ' . MODULES_TABLE . "
 			    WHERE module_basename = 'styles' AND module_mode = 'imageset'";
 			_sql($sql, $errored, $error_ary);
@@ -2259,6 +2262,11 @@ function change_database_data(&$no_updates, $version)
 			{
 				set_config('load_cpf_pm', '0');
 			}
+
+			$sql = 'UPDATE ' . USERS_TABLE . "
+				SET user_pass_convert = ''
+				WHERE user_pass_convert = '0'";
+			_sql($sql, $errored, $error_ary);
 
 			$no_updates = false;
 		break;

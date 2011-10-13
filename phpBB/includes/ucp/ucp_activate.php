@@ -76,7 +76,7 @@ class ucp_activate
 				'user_actkey'		=> '',
 				'user_password'		=> $user_row['user_newpasswd'],
 				'user_newpasswd'	=> '',
-				'user_pass_convert'	=> 0,
+				'user_pass_convert'	=> '',
 				'user_login_attempts'	=> 0,
 			);
 

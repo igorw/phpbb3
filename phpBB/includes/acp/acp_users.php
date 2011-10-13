@@ -892,7 +892,7 @@ class acp_users
 							$sql_ary += array(
 								'user_password'		=> phpbb_hash($data['new_password']),
 								'user_passchg'		=> time(),
-								'user_pass_convert'	=> 0,
+								'user_pass_convert'	=> '',
 							);
 
 							$user->reset_login_keys($user_id);
