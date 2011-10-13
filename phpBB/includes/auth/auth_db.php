@@ -159,8 +159,7 @@ function login_db($username, $password, $ip = '', $browser = '', $forwarded_for 
 		}
 
 		// in phpBB2 passwords were used exactly as they were sent, with addslashes applied
-		$password_old_format = isset($_REQUEST['password']) ? (string) $_REQUEST['password'] : '';
-		$password_old_format = (!STRIP) ? addslashes($password_old_format) : $password_old_format;
+		$password_raw = isset($_REQUEST['password']) ? (string) $_REQUEST['password'] : '';
 		$password_new_format = $request->variable('password', '', true);
 
 		if ($super_globals_disabled)
@@ -170,16 +169,9 @@ function login_db($username, $password, $ip = '', $browser = '', $forwarded_for 
 
 		if ($password == $password_new_format)
 		{
-			if (!function_exists('utf8_to_cp1252'))
-			{
-				global $phpbb_root_path, $phpEx;
-				include($phpbb_root_path . 'includes/utf/data/recode_basic.' . $phpEx);
-			}
+			$passwordchecker = new phpbb_passwordchecker_phpbb2();
 
-			// cp1252 is phpBB2's default encoding, characters outside ASCII range might work when converted into that encoding
-			// plain md5 support left in for conversions from other systems.
-			if ((strlen($row['user_password']) == 34 && (phpbb_check_hash(md5($password_old_format), $row['user_password']) || phpbb_check_hash(md5(utf8_to_cp1252($password_old_format)), $row['user_password'])))
-				|| (strlen($row['user_password']) == 32  && (md5($password_old_format) == $row['user_password'] || md5(utf8_to_cp1252($password_old_format)) == $row['user_password'])))
+			if ($passwordchecker->check($row, $password_raw))
 			{
 				$hash = phpbb_hash($password_new_format);
 
