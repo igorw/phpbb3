@@ -405,11 +405,8 @@ phpbb.add_ajax_callback = function(id, callback)
  * current text so that the process can be repeated.
  */
 phpbb.add_ajax_callback('alt_text', function(data) {
-	var el = $(this),
-		alt_text;
-
-	alt_text = el.attr('data-alt-text');
-	el.text();
+	var el = $(this);
+	var alt_text = el.attr('data-alt-text');
 	el.attr('data-alt-text', el.text());
 	el.text(el[0].title = alt_text);
 });
