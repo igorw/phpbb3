@@ -201,8 +201,7 @@ class phpbb_style_resource_locator
 		// locate a source file that exists
 		$source_file = $this->files['style'][0][$handle];
 		$tried = $source_file;
-		$found = false;
-		$found_all = array();
+		$found = array();
 		foreach ($this->roots as $root_key => $root_paths)
 		{
 			foreach ($root_paths as $root_index => $root)
@@ -211,31 +210,23 @@ class phpbb_style_resource_locator
 				$tried .= ', ' . $source_file;
 				if (file_exists($source_file))
 				{
-					$found = true;
-					break;
-				}
-			}
-			if ($found)
-			{
-				if ($find_all)
-				{
-					$found_all[] = $source_file;
-					$found = false;
-				}
-				else
-				{
-					break;
+					if ($find_all)
+					{
+						$found[] = $source_file;
+					}
+					else
+					{
+						return $source_file;
+					}
 				}
 			}
 		}
 
-		// search failed
-		if (!$found && !$find_all)
-		{
+		if (!$find_all) {
 			trigger_error("style resource locator: File for handle $handle does not exist. Could not find: $tried", E_USER_ERROR);
 		}
 
-		return ($find_all) ? $found_all : $source_file;
+		return $found;
 	}
 
 	/**
