@@ -184,8 +184,7 @@ $lexer = new phpbb_twig_lexer($twig, array(
     'tag_variable' => array('{', '}'),
 ));
 $twig->setLexer($lexer);
-$parser = new phpbb_twig_parser($twig);
-$twig->setParser($parser);
+$twig->addNodeVisitor(new phpbb_twig_node_visitor());
 
 page_header($user->lang['INDEX']);
 page_footer();
