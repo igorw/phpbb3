@@ -4832,6 +4832,7 @@ function page_footer($run_cron = true)
 {
 	global $db, $config, $template, $user, $auth, $cache, $starttime, $phpbb_root_path, $phpEx;
 	global $request;
+	global $twig;
 
 	// Output page creation time
 	if (defined('DEBUG'))
@@ -4862,12 +4863,17 @@ function page_footer($run_cron = true)
 		}
 	}
 
-	$template->assign_vars(array(
+	$vars = array(
 		'DEBUG_OUTPUT'			=> (defined('DEBUG')) ? $debug_output : '',
 		'TRANSLATION_INFO'		=> (!empty($user->lang['TRANSLATION_INFO'])) ? $user->lang['TRANSLATION_INFO'] : '',
 
-		'U_ACP' => ($auth->acl_get('a_') && !empty($user->data['is_registered'])) ? append_sid("{$phpbb_root_path}adm/index.$phpEx", false, true, $user->session_id) : '')
+		'U_ACP' => ($auth->acl_get('a_') && !empty($user->data['is_registered'])) ? append_sid("{$phpbb_root_path}adm/index.$phpEx", false, true, $user->session_id) : '',
 	);
+
+	foreach ($vars as $name => $value)
+	{
+		$twig->addGlobal($name, $value);
+	}
 
 	// Call cron-type script
 	$call_cron = false;
@@ -4898,14 +4904,9 @@ function page_footer($run_cron = true)
 		if ($task)
 		{
 			$url = $task->get_url();
-			$template->assign_var('RUN_CRON_TASK', '<img src="' . $url . '" width="1" height="1" alt="cron" />');
+			$twig->addGlobal('RUN_CRON_TASK', '<img src="' . $url . '" width="1" height="1" alt="cron" />');
 		}
 	}
-
-	$template->display('body');
-
-	garbage_collection();
-	exit_handler();
 }
 
 /**

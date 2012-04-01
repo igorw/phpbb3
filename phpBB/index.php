@@ -188,5 +188,9 @@ $parser = new phpbb_twig_parser($twig);
 $twig->setParser($parser);
 
 page_header($user->lang['INDEX']);
+page_footer();
 
 $twig->display('index_body.html', $vars);
+
+garbage_collection();
+exit_handler();
