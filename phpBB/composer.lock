@@ -1,9 +1,28 @@
 {
-    "hash": "9bada3748ec2933fe0864dcfafbcd671",
+    "hash": "a63fd7a1490fa506218609250113339e",
     "packages": [
         {
+            "package": "symfony/config",
+            "version": "dev-master",
+            "source-reference": "94a0501a51791f845225186ad03ce586a7c73339"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "dev-master",
+            "source-reference": "f5e5c32235fd687cf892abcb443e920fad7b4221"
+        },
+        {
             "package": "symfony/event-dispatcher",
-            "version": "v2.0.10"
+            "version": "v2.0.12"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "source-reference": "0647ee4ca69b60f9043256e89f8dbaa0cedd854c"
+        },
+        {
+            "package": "twig/twig",
+            "version": "1.6.3"
         }
     ],
     "aliases": []

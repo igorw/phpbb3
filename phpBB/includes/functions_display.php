@@ -23,6 +23,9 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 	global $db, $auth, $user, $template;
 	global $phpbb_root_path, $phpEx, $config;
 	global $request;
+	global $twig;
+
+	$forumrow = array();
 
 	$forum_rows = $subforums = $forum_ids = $forum_ids_moderator = $forum_moderators = $active_forum_ary = array();
 	$parent_id = $visible_forums = 0;
@@ -302,7 +305,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 		// Empty category
 		if ($row['parent_id'] == $root_data['forum_id'] && $row['forum_type'] == FORUM_CAT)
 		{
-			$template->assign_block_vars('forumrow', array(
+			$forumrow[] = array(
 				'S_IS_CAT'				=> true,
 				'FORUM_ID'				=> $row['forum_id'],
 				'FORUM_NAME'			=> $row['forum_name'],
@@ -311,7 +314,7 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 				'FORUM_FOLDER_IMG_SRC'	=> '',
 				'FORUM_IMAGE'			=> ($row['forum_image']) ? '<img src="' . $phpbb_root_path . $row['forum_image'] . '" alt="' . $user->lang['FORUM_CAT'] . '" />' : '',
 				'FORUM_IMAGE_SRC'		=> ($row['forum_image']) ? $phpbb_root_path . $row['forum_image'] : '',
-				'U_VIEWFORUM'			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $row['forum_id']))
+				'U_VIEWFORUM'			=> append_sid("{$phpbb_root_path}viewforum.$phpEx", 'f=' . $row['forum_id']),
 			);
 
 			continue;
@@ -442,7 +445,16 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			}
 		}
 
-		$template->assign_block_vars('forumrow', array(
+		$subforums = array();
+		foreach ($subforums_list as $subforum) {
+			$subforums[] = array(
+				'U_SUBFORUM'	=> $subforum['link'],
+				'SUBFORUM_NAME'	=> $subforum['name'],
+				'S_UNREAD'		=> $subforum['unread'],
+			);
+		}
+
+		$forumrow[] = array(
 			'S_IS_CAT'			=> false,
 			'S_NO_CAT'			=> $catless && !$last_catless,
 			'S_IS_LINK'			=> ($row['forum_type'] == FORUM_LINK) ? true : false,
@@ -477,36 +489,30 @@ function display_forums($root_data = '', $display_moderators = true, $return_mod
 			'U_UNAPPROVED_TOPICS'	=> ($row['forum_id_unapproved_topics']) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=queue&amp;mode=unapproved_topics&amp;f=' . $row['forum_id_unapproved_topics']) : '',
 			'U_VIEWFORUM'		=> $u_viewforum,
 			'U_LAST_POSTER'		=> get_username_string('profile', $row['forum_last_poster_id'], $row['forum_last_poster_name'], $row['forum_last_poster_colour']),
-			'U_LAST_POST'		=> $last_post_url)
-		);
+			'U_LAST_POST'		=> $last_post_url,
 
-		// Assign subforums loop for style authors
-		foreach ($subforums_list as $subforum)
-		{
-			$template->assign_block_vars('forumrow.subforum', array(
-				'U_SUBFORUM'	=> $subforum['link'],
-				'SUBFORUM_NAME'	=> $subforum['name'],
-				'S_UNREAD'		=> $subforum['unread'])
-			);
-		}
+			'subforum' => $subforums,
+		);
 
 		$last_catless = $catless;
 	}
 
-	$template->assign_vars(array(
+	$vars = array(
 		'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? append_sid("{$phpbb_root_path}viewforum.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;f=' . $root_data['forum_id'] . '&amp;mark=forums') : '',
 		'S_HAS_SUBFORUM'	=> ($visible_forums) ? true : false,
 		'L_SUBFORUM'		=> ($visible_forums == 1) ? $user->lang['SUBFORUM'] : $user->lang['SUBFORUMS'],
 		'LAST_POST_IMG'		=> $user->img('icon_topic_latest', 'VIEW_LATEST_POST'),
 		'UNAPPROVED_IMG'	=> $user->img('icon_topic_unapproved', 'TOPICS_UNAPPROVED'),
-	));
+
+		'forumrow' => $forumrow,
+	);
 
 	if ($return_moderators)
 	{
 		return array($active_forum_ary, $forum_moderators);
 	}
 
-	return array($active_forum_ary, array());
+	return $vars;
 }
 
 /**

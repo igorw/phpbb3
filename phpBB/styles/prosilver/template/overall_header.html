@@ -17,6 +17,7 @@
 	<!-- IF S_ENABLE_FEEDS_TOPIC and S_TOPIC_ID --><link rel="alternate" type="application/atom+xml" title="{L_FEED} - {L_TOPIC} - {TOPIC_TITLE}" href="{U_FEED}?f={S_FORUM_ID}&amp;t={S_TOPIC_ID}" /><!-- ENDIF -->
 <!-- ENDIF -->
 
+<!-- raw -->
 <!--
 	phpBB style name: prosilver
 	Based on style:   prosilver (this is the default phpBB3 style)
@@ -27,6 +28,7 @@
 	      The phpBB Group is not responsible for the content of this page and forum. For more information
 	      about phpBB please visit http://www.phpbb.com
 -->
+<!-- endraw -->
 
 <script type="text/javascript">
 // <![CDATA[
@@ -44,6 +46,7 @@
 		window.open(url.replace(/&amp;/g, '&'), '_phpbbprivmsg', 'height=225,resizable=yes,scrollbars=yes, width=400');
 	<!-- ENDIF -->
 
+	<!-- raw -->
 	/**
 	* Find a member
 	*/
@@ -71,6 +74,7 @@
 			eval(onunload_functions[i]);
 		}
 	};
+	<!-- endraw -->
 
 // ]]>
 </script>
@@ -80,13 +84,15 @@
 <link href="{T_STYLESHEET_LINK}" rel="stylesheet" type="text/css" media="screen, projection" />
 <link href="{T_STYLESHEET_LANG_LINK}" rel="stylesheet" type="text/css" media="screen, projection" />
 
-<!-- IF S_CONTENT_DIRECTION eq 'rtl' -->
+<!-- IF S_CONTENT_DIRECTION == 'rtl' -->
 	<link href="{T_THEME_PATH}/bidi.css" rel="stylesheet" type="text/css" media="screen, projection" />
 <!-- ENDIF -->
 
+<!-- raw -->
 <!--[if lte IE 8]>
 	<link href="{T_THEME_PATH}/tweaks.css" rel="stylesheet" type="text/css" media="screen, projection" />
 <![endif]-->
+<!-- endraw -->
 
 </head>
 
@@ -124,7 +130,7 @@
 			<div class="inner"><span class="corners-top"><span></span></span>
 
 			<ul class="linklist navlinks">
-				<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a> <!-- BEGIN navlinks --> <strong>&#8249;</strong> <a href="{navlinks.U_VIEW_FORUM}">{navlinks.FORUM_NAME}</a><!-- END navlinks --></li>
+				<li class="icon-home"><a href="{U_INDEX}" accesskey="h">{L_INDEX}</a> <!-- FOR navlink in navlinks --> <strong>&#8249;</strong> <a href="{navlink.U_VIEW_FORUM}">{navlink.FORUM_NAME}</a><!-- ENDFOR --></li>
 
 				<!-- IF U_EMAIL_TOPIC --><li class="rightside"><a href="{U_EMAIL_TOPIC}" title="{L_EMAIL_TOPIC}" class="sendemail">{L_EMAIL_TOPIC}</a></li><!-- ENDIF -->
 				<!-- IF U_EMAIL_PM --><li class="rightside"><a href="{U_EMAIL_PM}" title="{L_EMAIL_PM}" class="sendemail">{L_EMAIL_PM}</a></li><!-- ENDIF -->

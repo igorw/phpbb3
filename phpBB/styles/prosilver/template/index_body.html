@@ -1,4 +1,6 @@
-<!-- INCLUDE overall_header.html -->
+<!-- EXTENDS "layout.html.twig" -->
+
+<!-- BLOCK body -->
 
 <p class="{S_CONTENT_FLOW_END}<!-- IF S_USER_LOGGED_IN --> rightside<!-- ENDIF -->"><!-- IF S_USER_LOGGED_IN -->{LAST_VISIT_DATE}<!-- ELSE -->{CURRENT_TIME}<!-- ENDIF --></p>
 <!-- IF U_MCP --><p>{CURRENT_TIME} <br />[&nbsp;<a href="{U_MCP}">{L_MCP}</a>&nbsp;]</p><!-- ELSEIF S_USER_LOGGED_IN --><p>{CURRENT_TIME}</p><!-- ENDIF -->
@@ -12,7 +14,7 @@
 </ul>
 <!-- ENDIF -->
 
-<!-- INCLUDE forumlist_body.html -->
+<!-- INCLUDE "forumlist_body.html" -->
 
 <!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
 	<form method="post" action="{S_LOGIN_ACTION}" class="headerspace">
@@ -35,9 +37,9 @@
 	<!-- IF LEGEND --><br /><em>{L_LEGEND}: {LEGEND}</em><!-- ENDIF --></p>
 <!-- ENDIF -->
 
-<!-- IF S_DISPLAY_BIRTHDAY_LIST and .birthdays -->
+<!-- IF S_DISPLAY_BIRTHDAY_LIST and birthdays -->
 	<h3>{L_BIRTHDAYS}</h3>
-	<p><!-- IF .birthdays -->{L_CONGRATULATIONS}: <strong><!-- BEGIN birthdays -->{birthdays.USERNAME}<!-- IF birthdays.AGE !== '' --> ({birthdays.AGE})<!-- ENDIF --><!-- IF not birthdays.S_LAST_ROW -->, <!-- ENDIF --><!-- END birthdays --></strong><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF --></p>
+	<p><!-- IF birthdays -->{L_CONGRATULATIONS}: <strong><!-- FOR birthday in birthdays -->{birthday.USERNAME}<!-- IF birthday.AGE != '' --> ({birthday.AGE})<!-- ENDIF --><!-- IF not birthday.S_LAST_ROW -->, <!-- ENDIF --><!-- ENDFOR --></strong><!-- ELSE -->{L_NO_BIRTHDAYS}<!-- ENDIF --></p>
 <!-- ENDIF -->
 
 <!-- IF NEWEST_USER -->
@@ -45,4 +47,4 @@
 	<p>{TOTAL_POSTS} &bull; {TOTAL_TOPICS} &bull; {TOTAL_USERS} &bull; {NEWEST_USER}</p>
 <!-- ENDIF -->
 
-<!-- INCLUDE overall_footer.html -->
+<!-- ENDBLOCK -->

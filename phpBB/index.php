@@ -60,7 +60,7 @@ include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
 
 $user->add_lang('viewforum');
 
-display_forums('', $config['load_moderators']);
+$forum_vars = display_forums('', $config['load_moderators']);
 
 $order_legend = ($config['legend_sort_groupname']) ? 'group_name' : 'group_legend';
 // Grab group details for legend display
@@ -149,7 +149,7 @@ if ($config['load_birthdays'] && $config['allow_birthdays'] && $auth->acl_gets('
 }
 
 // Assign index specific vars
-$template->assign_vars(array(
+$vars = array(
 	'TOTAL_POSTS'	=> $user->lang('TOTAL_POSTS_COUNT', (int) $config['num_posts']),
 	'TOTAL_TOPICS'	=> $user->lang('TOTAL_TOPICS', (int) $config['num_topics']),
 	'TOTAL_USERS'	=> $user->lang('TOTAL_USERS', (int) $config['num_users']),
@@ -167,14 +167,24 @@ $template->assign_vars(array(
 	'S_DISPLAY_BIRTHDAY_LIST'	=> ($config['load_birthdays']) ? true : false,
 
 	'U_MARK_FORUMS'		=> ($user->data['is_registered'] || $config['load_anon_lastread']) ? append_sid("{$phpbb_root_path}index.$phpEx", 'hash=' . generate_link_hash('global') . '&amp;mark=forums') : '',
-	'U_MCP'				=> ($auth->acl_get('m_') || $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=main&amp;mode=front', true, $user->session_id) : '')
+	'U_MCP'				=> ($auth->acl_get('m_') || $auth->acl_getf_global('m_')) ? append_sid("{$phpbb_root_path}mcp.$phpEx", 'i=main&amp;mode=front', true, $user->session_id) : '',
 );
 
-// Output page
+$vars = array_merge($vars, $forum_vars);
+
+$loader = new Twig_Loader_Filesystem($phpbb_root_path.'styles/'.$user->theme['style_path'].'/template');
+$twig = new Twig_Environment($loader, array(
+	'autoescape'	=> false,
+	// 'cache'			=> $phpbb_root_path.'cache/twig',
+	// 'debug'			=> true,
+));
+$lexer = new phpbb_twig_lexer($twig, array(
+    'tag_comment'  => array('<!--#', '-->'),
+    'tag_block'    => array('<!--', '-->'),
+    'tag_variable' => array('{', '}'),
+));
+$twig->setLexer($lexer);
+
 page_header($user->lang['INDEX']);
 
-$template->set_filenames(array(
-	'body' => 'index_body.html')
-);
-
-page_footer();
+$twig->display('index_body.html', $vars);

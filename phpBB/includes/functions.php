@@ -4517,7 +4517,7 @@ function phpbb_http_login($param)
 function page_header($page_title = '', $display_online_list = true, $item_id = 0, $item = 'forum')
 {
 	global $db, $config, $template, $SID, $_SID, $_EXTRA_URL, $user, $auth, $phpEx, $phpbb_root_path;
-	global $phpbb_dispatcher;
+	global $phpbb_dispatcher, $twig;
 
 	if (defined('HEADER_INC'))
 	{
@@ -4677,7 +4677,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	}
 
 	// The following assigns all _common_ variables that may be used at any point in a template.
-	$template->assign_vars(array(
+	$globals = array(
 		'SITENAME'						=> $config['sitename'],
 		'SITE_DESCRIPTION'				=> $config['site_desc'],
 		'PAGE_TITLE'					=> $page_title,
@@ -4799,7 +4799,15 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 		'SITE_LOGO_IMG'			=> $user->img('site_logo'),
 
 		'A_COOKIE_SETTINGS'		=> addslashes('; path=' . $config['cookie_path'] . ((!$config['cookie_domain'] || $config['cookie_domain'] == 'localhost' || $config['cookie_domain'] == '127.0.0.1') ? '' : '; domain=' . $config['cookie_domain']) . ((!$config['cookie_secure']) ? '' : '; secure')),
-	));
+	);
+
+	foreach ($globals as $name => $value) {
+		$twig->addGlobal($name, $value);
+	}
+
+	foreach ($user->lang as $name => $value) {
+		$twig->addGlobal('L_'.$name, $value);
+	}
 
 	$vars = array('page_title', 'display_online_list', 'item_id', 'item');
 	extract($phpbb_dispatcher->trigger_event('core.page_header', compact($vars)));
