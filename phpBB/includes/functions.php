@@ -4804,10 +4804,7 @@ function page_header($page_title = '', $display_online_list = true, $item_id = 0
 	foreach ($globals as $name => $value) {
 		$twig->addGlobal($name, $value);
 	}
-
-	foreach ($user->lang as $name => $value) {
-		$twig->addGlobal('L_'.$name, $value);
-	}
+	$twig->addGlobal('lang', $user->lang);
 
 	$vars = array('page_title', 'display_online_list', 'item_id', 'item');
 	extract($phpbb_dispatcher->trigger_event('core.page_header', compact($vars)));

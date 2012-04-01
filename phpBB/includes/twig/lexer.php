@@ -16,7 +16,7 @@ if (!defined('IN_PHPBB'))
 }
 
 /**
- * 
+ * Extend the twig lexer to allow uppercase tag names
  */
 class phpbb_twig_lexer extends Twig_Lexer
 {
@@ -35,7 +35,8 @@ class phpbb_twig_lexer extends Twig_Lexer
 
     protected function pushToken($type, $value = '')
     {
-        if (Twig_Token::NAME_TYPE === $type && in_array($value, $this->lower_tokens)) {
+        if (Twig_Token::NAME_TYPE === $type && in_array($value, $this->lower_tokens))
+        {
             $value = strtolower($value);
         }
 
