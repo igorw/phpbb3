@@ -9,6 +9,8 @@
 		"symfony/yaml": "2.1.*"
 	},
 	"require-dev": {
-		"fabpot/goutte": "v0.1.0"
+		"igorw/cgi-http-kernel": "dev-master",
+		"symfony/browser-kit": "2.1.*",
+		"symfony/css-selector": "2.1.*"
 	}
 }

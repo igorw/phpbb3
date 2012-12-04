@@ -6,14 +6,16 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+
+use Igorw\CgiHttpKernel\CgiHttpKernel;
 use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\HttpKernel\Client;
 
 require_once __DIR__ . '/../../phpBB/includes/functions_install.php';
 
 class phpbb_functional_test_case extends phpbb_test_case
 {
 	protected $client;
-	protected $root_url;
 
 	protected $cache = null;
 	protected $db = null;
@@ -41,12 +43,9 @@ class phpbb_functional_test_case extends phpbb_test_case
 			$this->markTestSkipped('phpbb_functional_url was not set in test_config and wasn\'t set as PHPBB_FUNCTIONAL_URL environment variable either.');
 		}
 
+		$this->kernel = new CgiHttpKernel(realpath(__DIR__.'/../../phpBB'));
 		$this->cookieJar = new CookieJar;
-		$this->client = new Goutte\Client(array(), null, $this->cookieJar);
-		// Reset the curl handle because it is 0 at this point and not a valid
-		// resource
-		$this->client->getClient()->getCurlMulti()->reset(true);
-		$this->root_url = self::$config['phpbb_functional_url'];
+		$this->client = new Client($this->kernel, array(), null, $this->cookieJar);
 		// Clear the language array so that things
 		// that were added in other tests are gone
 		$this->lang = array();
@@ -56,7 +55,7 @@ class phpbb_functional_test_case extends phpbb_test_case
 
 	public function request($method, $path)
 	{
-		return $this->client->request($method, $this->root_url . $path);
+		return $this->client->request($method, $path);
 	}
 
 	// bootstrap, called after board is set up
@@ -354,7 +353,7 @@ class phpbb_functional_test_case extends phpbb_test_case
 	*/
 	public function assert_response_success()
 	{
-		$this->assertEquals(200, $this->client->getResponse()->getStatus());
+		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
 		$content = $this->client->getResponse()->getContent();
 		$this->assertNotContains('Fatal error:', $content);
 	}
