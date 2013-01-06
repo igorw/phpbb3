@@ -78,7 +78,7 @@ class phpbb_functional_test_case extends phpbb_test_case
 
 	public function request($method, $path)
 	{
-		return $this->client->request($method, $path);
+		return $this->client->request($method, '/'.$path);
 	}
 
 	// bootstrap, called after board is set up
