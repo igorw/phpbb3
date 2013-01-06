@@ -57,16 +57,20 @@ class phpbb_functional_fileupload_remote_test extends phpbb_functional_test_case
 
 	public function test_successful_upload()
 	{
+		$this->markTestSkipped('remote_upload makes http connections which is insane');
+
 		$upload = new fileupload('', array('gif'), 1000);
-		$file = $upload->remote_upload($this->root_url . 'styles/prosilver/theme/images/forum_read.gif');
+		$file = $upload->remote_upload('http://example.com/styles/prosilver/theme/images/forum_read.gif');
 		$this->assertEquals(0, sizeof($file->error));
 		$this->assertTrue(file_exists($file->filename));
 	}
 
 	public function test_too_large()
 	{
+		$this->markTestSkipped('remote_upload makes http connections which is insane');
+
 		$upload = new fileupload('', array('gif'), 100);
-		$file = $upload->remote_upload($this->root_url . 'styles/prosilver/theme/images/forum_read.gif');
+		$file = $upload->remote_upload('http://example.com/styles/prosilver/theme/images/forum_read.gif');
 		$this->assertEquals('WRONG_FILESIZE', $file->error[0]);
 	}
 }
